@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import SquareRoot from './probGenerators/squareRoot';                                                                                                                                                                                         
+import React, { Component } from 'react';                                                                                                                                                     
+import { GENERATOR_IDS, GEN_ID_TO_GENERATOR, GEN_ID_TO_NAME } from './constants/probGenerators';
 import './App.css';
 
 class Problem extends Component {
@@ -119,10 +119,12 @@ class TestOptions extends Component {
   constructor(props) {
     super(props);
 
+    let gen_id = props.gen_id;
+    if (!gen_id) gen_id = GENERATOR_IDS[0];
     this.state = {
       testStarted: false,
       totalQuestions: 3,
-      probGen: props.probGen,
+      gen_id: gen_id,
     }
 
     this.handleTotQuestionsChange = this.handleTotQuestionsChange.bind(this);
@@ -138,7 +140,7 @@ class TestOptions extends Component {
 
   handleTypeChange(event) {
     this.setState({
-      probGen: event.target.value,
+      gen_id: event.target.value,
     })
   }
 
@@ -152,8 +154,17 @@ class TestOptions extends Component {
     if (this.state.testStarted) {
       return (
         <Test totalQuestions={this.state.totalQuestions}
-          probGen = {SquareRoot}
+          probGen = {GEN_ID_TO_GENERATOR[this.state.gen_id]}
         />
+      );
+    }
+
+    let genOptions = [];
+    for (let option of GENERATOR_IDS) {
+      genOptions.push(
+        <option key={option} value={option}>
+          {GEN_ID_TO_NAME[option]}
+        </option>
       );
     }
     return (
@@ -164,8 +175,8 @@ class TestOptions extends Component {
           onChange={this.handleTotQuestionsChange}
         /><br />
         Select type:
-        <select value={this.state.probGen} onChange={this.handleTypeChange}>
-          <option value="squareroot">Square Root</option>
+        <select value={this.state.gen_id} onChange={this.handleTypeChange}>
+          {genOptions}
         </select><br />
         <button onClick={this.startTest}>Start</button>
       </div>
@@ -177,7 +188,7 @@ class Content extends Component {
   render() {
     return (
       <div className="content">
-        <TestOptions probGen={SquareRoot}/>
+        <TestOptions/>
       </div>
     );
   }
