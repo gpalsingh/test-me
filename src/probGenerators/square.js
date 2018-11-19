@@ -4,8 +4,8 @@ export default class Square {
   }
 
   static createQuestion(ops) {
-    const number = 1;
-     while (number >= 1) Math.ceil(Math.random() * 10);
-    return [`What is the square root of ${number}`, number * number, 'number'];
+    let number = 1;
+    while (number <= 1) number = Math.ceil(Math.random() * 10);
+    return [`What is the square of ${number}`, number * number, 'number'];
   }
 }
