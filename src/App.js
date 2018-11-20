@@ -12,6 +12,11 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch } from 'react-router-dom';
 import './App.css';
 
 class Problem extends Component {
@@ -144,6 +149,15 @@ class TestOptions extends Component {
     this.startTest = this.startTest.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    let gen_id = this.state.gen_id;
+    if (nextProps.gen_id) gen_id = nextProps.gen_id;
+    this.setState({
+      testStarted: false,
+      gen_id: gen_id,
+    });
+  }
+
   handleTotQuestionsChange(event) {
     this.setState({
       totalQuestions: event.target.value,
@@ -200,7 +214,7 @@ class Content extends Component {
   render() {
     return (
       <div className="content">
-        <TestOptions/>
+        <TestOptions {...this.props}/>
       </div>
     );
   }
@@ -240,8 +254,8 @@ class Navigation extends Component {
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret> Testing </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>Square</DropdownItem>
-                  <DropdownItem>Square Root</DropdownItem>
+                  <DropdownItem tag={Link} to="/test/square">Square</DropdownItem>
+                  <DropdownItem tag={Link} to="/test/squareroot">Square Root</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
@@ -252,11 +266,22 @@ class Navigation extends Component {
   }
 }
 
-class Body extends Component {
+class LandingPage extends Component {
   render() {
     return (
-      <div className="app-body">
-        <Content />
+      <div>
+        Test yourself endlessly with computer generated problems, for free!<br />
+        <Link to="/test">Start practising</Link>
+      </div>
+    );
+  }
+}
+
+class NotFound extends Component {
+  render() {
+    return (
+      <div>
+        Nothing but only chickens.
       </div>
     );
   }
@@ -265,10 +290,25 @@ class Body extends Component {
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <Navigation />
-        <Body />
-      </div>
+      <Router>
+        <div className="app">
+          <Navigation />
+
+          <div className="app-body">
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/test" component={Content} />
+              <Route exact path="/test/square"
+                render={(props) => <Content {...props} gen_id="SQUARE" />}
+              />
+              <Route exact path="/test/squareroot"
+                render={(props) => <Content {...props} gen_id="SQUARE_ROOT" />}
+              />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </div>
+      </Router>
     );
   }
 }
