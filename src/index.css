@@ -1,4 +1,4 @@
-body, #root, .app, .header, .app-body {
+body, #root, .app, .app-body {
   width: 100%;
 }
 
@@ -15,35 +15,6 @@ body, #root, .app, .header, .app-body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-.header {
-  width: 100%;
-  background-color: lightblue;
-  height: 120px;
-  line-height: 120px;
-}
-
-.logo {
-  margin-left: 20px;
-  vertical-align: middle;
-  font-size: 50px;
-}
-
-ul.nav-list {
-  overflow: hidden;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: black;
-  height: 50px;
-  line-height: 40px;
-}
-
-.nav-list > li {
-  color: white;
-  display: inline-block;
-  padding: 5px 0px 5px 15px;
 }
 
 .test-div, .test-result, .test-options {

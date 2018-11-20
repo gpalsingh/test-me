@@ -1,5 +1,17 @@
 import React, { Component } from 'react';                                                                                                                                                     
 import { GENERATOR_IDS, GEN_ID_TO_GENERATOR, GEN_ID_TO_NAME } from './constants/probGenerators';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
 import './App.css';
 
 class Problem extends Component {
@@ -195,14 +207,46 @@ class Content extends Component {
 }
 
 class Navigation extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: false,
+    }
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
   render() {
     return (
-      <div className="nav">
-        <ul className="nav-list">
-          <li>First option</li>
-          <li>Second option</li> 
-          <li>Third option</li>
-        </ul>
+      <div>
+        <Navbar color="light" expand="md">
+          <NavbarBrand href="/">TestMe</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto">
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret> Boards </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>CBSE</DropdownItem>
+                  <DropdownItem>Others</DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret> Testing </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>Square</DropdownItem>
+                  <DropdownItem>Square Root</DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Nav>
+          </Collapse>
+        </Navbar>
       </div>
     );
   }
@@ -212,18 +256,7 @@ class Body extends Component {
   render() {
     return (
       <div className="app-body">
-        <Navigation />
         <Content />
-      </div>
-    );
-  }
-}
-
-class Header extends Component {
-  render() {
-    return (
-      <div className="header">
-        <span className="logo">TestMe</span>
       </div>
     );
   }
@@ -233,7 +266,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Header />
+        <Navigation />
         <Body />
       </div>
     );
