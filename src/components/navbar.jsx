@@ -41,6 +41,8 @@ export class Navigation extends Component {
                 <DropdownToggle nav caret> Boards </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>CBSE</DropdownItem>
+                  <DropdownItem>CISCE</DropdownItem>
+                  <DropdownItem>ICSE</DropdownItem>
                   <DropdownItem>Others</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
