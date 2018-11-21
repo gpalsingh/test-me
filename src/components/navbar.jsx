@@ -53,6 +53,9 @@ export class Navigation extends Component {
                   <DropdownItem tag={Link} to="/test/squareroot">Square Root</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
+              <NavItem>
+                <NavLink tag={Link} to="/about">About</NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>

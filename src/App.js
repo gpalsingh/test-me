@@ -6,6 +6,7 @@ import {
   Switch } from 'react-router-dom';
 import { GENERATOR_IDS, GEN_ID_TO_GENERATOR, GEN_ID_TO_NAME } from './constants/probGenerators';
 import { Navigation } from './components/navbar';
+import { About } from './components/about';
 import './App.css';
 
 class Problem extends Component {
@@ -241,6 +242,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/test" component={Content} />
+              <Route exact path="/about" component={About} />
               <Route exact path="/test/square"
                 render={(props) => <Content {...props} gen_id="SQUARE" />}
               />
