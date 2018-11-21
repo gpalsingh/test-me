@@ -1,22 +1,11 @@
 import React, { Component } from 'react';                                                                                                                                                     
-import { GENERATOR_IDS, GEN_ID_TO_GENERATOR, GEN_ID_TO_NAME } from './constants/probGenerators';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
 import {
   BrowserRouter as Router,
   Route,
   Link,
   Switch } from 'react-router-dom';
+import { GENERATOR_IDS, GEN_ID_TO_GENERATOR, GEN_ID_TO_NAME } from './constants/probGenerators';
+import { Navigation } from './components/navbar';
 import './App.css';
 
 class Problem extends Component {
@@ -215,52 +204,6 @@ class Content extends Component {
     return (
       <div className="content">
         <TestOptions {...this.props}/>
-      </div>
-    );
-  }
-}
-
-class Navigation extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isOpen: false,
-    }
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <Navbar color="light" expand="md">
-          <NavbarBrand href="/">TestMe</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto">
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret> Boards </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>CBSE</DropdownItem>
-                  <DropdownItem>Others</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret> Testing </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem tag={Link} to="/test/square">Square</DropdownItem>
-                  <DropdownItem tag={Link} to="/test/squareroot">Square Root</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
-          </Collapse>
-        </Navbar>
       </div>
     );
   }
