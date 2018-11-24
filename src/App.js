@@ -122,12 +122,17 @@ class Test extends Component {
   }
 }
 
-class TestOptions extends Component {
+class TestConfig extends Component {
   constructor(props) {
     super(props);
 
-    let gen_id = props.gen_id;
-    if (!gen_id) gen_id = GENERATOR_IDS[0];
+    // Check that problem generator is supported
+    let gen_id = props.match.params.gen_id;
+    const probGen = GEN_ID_TO_GENERATOR[gen_id];
+    // Set default generator if probGen is invalid
+    // Possibly show a message saying invalid gen
+    if (!probGen) gen_id = GENERATOR_IDS[0];
+
     this.state = {
       testStarted: false,
       totalQuestions: 3,
@@ -141,7 +146,7 @@ class TestOptions extends Component {
 
   componentWillReceiveProps(nextProps) {
     let gen_id = this.state.gen_id;
-    if (nextProps.gen_id) gen_id = nextProps.gen_id;
+    if (nextProps.match.params.gen_id) gen_id = nextProps.match.params.gen_id;
     this.setState({
       testStarted: false,
       gen_id: gen_id,
@@ -200,11 +205,20 @@ class TestOptions extends Component {
   }
 }
 
-class Content extends Component {
+class TestContainer extends Component {
   render() {
     return (
       <div className="content">
-        <TestOptions {...this.props}/>
+        <Switch>
+          <Route exact path={this.props.match.path}>
+            <TestConfig {...this.props} />
+          </Route>
+          <Route
+            path={`${this.props.match.path}/:gen_id`}
+            component={TestConfig}
+            {...this.props}
+          />
+        </Switch>
       </div>
     );
   }
@@ -238,17 +252,11 @@ class App extends Component {
         <div className="app">
           <Navigation />
 
-          <div className="app-body">
+          <div className="container ">
             <Switch>
               <Route exact path="/" component={LandingPage} />
-              <Route exact path="/test" component={Content} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/test/square"
-                render={(props) => <Content {...props} gen_id="SQUARE" />}
-              />
-              <Route exact path="/test/squareroot"
-                render={(props) => <Content {...props} gen_id="SQUARE_ROOT" />}
-              />
+              <Route path="/test" component={TestContainer} />
+              <Route path="/about" component={About} />
               <Route component={NotFound} />
             </Switch>
           </div>

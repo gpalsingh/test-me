@@ -2,16 +2,16 @@ import SquareRoot from '../probGenerators/squareRoot';
 import Square from '../probGenerators/square';
 
 export const GENERATOR_IDS = [
-  'SQUARE_ROOT',
-  'SQUARE',
+  'squareroot',
+  'square',
 ];
 
 export const GEN_ID_TO_GENERATOR = {
-  'SQUARE_ROOT': SquareRoot,
-  'SQUARE': Square,
+  'squareroot': SquareRoot,
+  'square': Square,
 };
 
 export const GEN_ID_TO_NAME = {
-  'SQUARE_ROOT': "Square Root",
-  'SQUARE': "Square",
+  'squareroot': "Square Root",
+  'square': "Square",
 };
