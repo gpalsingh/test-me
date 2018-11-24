@@ -32,14 +32,14 @@ export class Navigation extends Component {
   render() {
     return (
       <div>
-        <Navbar color="light" expand="md">
+        <Navbar color="light" light expand="md">
           <NavbarBrand href="/">TestMe</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto">
+            <Nav className="ml-auto" navbar>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret> Boards </DropdownToggle>
-                <DropdownMenu right>
+                <DropdownMenu>
                   <DropdownItem>CBSE</DropdownItem>
                   <DropdownItem>CISCE</DropdownItem>
                   <DropdownItem>ICSE</DropdownItem>
@@ -48,7 +48,7 @@ export class Navigation extends Component {
               </UncontrolledDropdown>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret> Testing </DropdownToggle>
-                <DropdownMenu right>
+                <DropdownMenu>
                   <DropdownItem tag={Link} to="/test/square">Square</DropdownItem>
                   <DropdownItem tag={Link} to="/test/squareroot">Square Root</DropdownItem>
                 </DropdownMenu>
