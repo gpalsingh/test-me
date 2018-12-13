@@ -37,7 +37,9 @@ export class Navigation extends Component {
       subjects.push(
         <DropdownItem
           tag={Link}
-          to={url}>
+          to={url}
+          key={sub_id}
+        >
           {sub_name}
         </DropdownItem>
       );

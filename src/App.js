@@ -4,6 +4,8 @@ import {
   Route,
   Link,
   Switch } from 'react-router-dom';
+import { Button } from 'reactstrap';
+import { createBrowserHistory } from 'history';
 import {
   GEN_IDS,
   GEN_ID_TO_GEN,
@@ -132,7 +134,7 @@ class TestConfig extends Component {
     super(props);
 
     const sub_id = props.sub_id;
-    const testStarted = false || props.testStarted;
+    const testStarted = props.testStarted || false;
     const totalQuestions = props.totalQuestions || 3;
     // Validate problem generator
     let gen_id = props.match.params.gen_id;
@@ -151,13 +153,15 @@ class TestConfig extends Component {
     this.startTest = this.startTest.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    let gen_id = this.state.gen_id;
-    if (nextProps.match.params.gen_id) gen_id = nextProps.match.params.gen_id;
-    this.setState({
-      testStarted: false,
-      gen_id: gen_id,
+  componentDidMount() {
+    //Listen to history changes to render accordingly
+    this.unlisten = history.listen((location, action) => {
+      this.setState({testStarted: false});
     });
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
   }
 
   handleTotQuestionsChange(event) {
@@ -175,7 +179,7 @@ class TestConfig extends Component {
   startTest(event) {
     this.setState({
       testStarted: true,
-    })
+    });
   }
 
   render() {
@@ -206,7 +210,11 @@ class TestConfig extends Component {
         <select value={this.state.gen_id} onChange={this.handleTypeChange}>
           {genOptions}
         </select><br />
-        <button onClick={this.startTest}>Start</button>
+        <Link
+          to={`/test/${this.state.sub_id}/${this.state.gen_id}`}
+        >
+          <Button color="primary" onClick={this.startTest}>Start</Button>
+        </Link>
       </div>
     );
   }
@@ -280,4 +288,5 @@ class App extends Component {
   }
 }
 
+const history = createBrowserHistory();
 export default App;
