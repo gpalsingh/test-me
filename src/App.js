@@ -4,7 +4,9 @@ import {
   Route,
   Link,
   Switch } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import {
+  Button,
+  Container } from 'reactstrap';
 import { createBrowserHistory } from 'history';
 import {
   GEN_IDS,
@@ -249,9 +251,15 @@ class TestContainer extends Component {
 class LandingPage extends Component {
   render() {
     return (
-      <div>
-        Test yourself endlessly with computer generated problems, for free!<br />
-        <Link to="/test">Start practising</Link>
+      <div className="d-flex justify-content-center flex-column landing-page">
+        <div className="text-center rounded p-4">
+          <p className="h1 text-monospace text-uppercase">
+            Test yourself endlessly with computer generated problems, for free!
+          </p>
+          <div className="text-center">
+            <Button tag={Link} to="/test" size="lg" color="primary">Let's go</Button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -274,14 +282,14 @@ class App extends Component {
         <div className="app">
           <Navigation />
 
-          <div className="container ">
+          <Container>
             <Switch>
               <Route exact path="/" component={LandingPage} />
               <Route path="/test" component={TestContainer} />
               <Route path="/about" component={About} />
               <Route component={NotFound} />
             </Switch>
-          </div>
+          </Container>
         </div>
       </Router>
     );
