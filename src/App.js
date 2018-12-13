@@ -4,9 +4,14 @@ import {
   Route,
   Link,
   Switch } from 'react-router-dom';
-import { GENERATOR_IDS, GEN_ID_TO_GENERATOR, GEN_ID_TO_NAME } from './constants/probGenerators';
+import {
+  GEN_IDS,
+  GEN_ID_TO_GEN,
+  GEN_ID_TO_GEN_NAME, 
+  SUBJECT_ID_TO_NAME } from './constants/probGenerators';
 import { Navigation } from './components/navbar';
 import { About } from './components/about';
+import { SubjectsPage } from './components/subjects';
 import './App.css';
 
 class Problem extends Component {
@@ -126,16 +131,18 @@ class TestConfig extends Component {
   constructor(props) {
     super(props);
 
-    // Check that problem generator is supported
+    const sub_id = props.sub_id;
+    const testStarted = false || props.testStarted;
+    const totalQuestions = props.totalQuestions || 3;
+    // Validate problem generator
     let gen_id = props.match.params.gen_id;
-    const probGen = GEN_ID_TO_GENERATOR[gen_id];
-    // Set default generator if probGen is invalid
-    // Possibly show a message saying invalid gen
-    if (!probGen) gen_id = GENERATOR_IDS[0];
+    const probGen = GEN_ID_TO_GEN[sub_id][gen_id];
+    if (!probGen) gen_id = GEN_IDS[sub_id][0];
 
     this.state = {
-      testStarted: false,
-      totalQuestions: 3,
+      sub_id: sub_id,
+      testStarted: testStarted,
+      totalQuestions: totalQuestions,
       gen_id: gen_id,
     }
 
@@ -175,16 +182,16 @@ class TestConfig extends Component {
     if (this.state.testStarted) {
       return (
         <Test totalQuestions={this.state.totalQuestions}
-          probGen = {GEN_ID_TO_GENERATOR[this.state.gen_id]}
+          probGen = {GEN_ID_TO_GEN[this.state.sub_id][this.state.gen_id]}
         />
       );
     }
 
     let genOptions = [];
-    for (let option of GENERATOR_IDS) {
+    for (let gen_id of GEN_IDS[this.state.sub_id]) {
       genOptions.push(
-        <option key={option} value={option}>
-          {GEN_ID_TO_NAME[option]}
+        <option key={gen_id} value={gen_id}>
+          {GEN_ID_TO_GEN_NAME[this.state.sub_id][gen_id]}
         </option>
       );
     }
@@ -207,17 +214,24 @@ class TestConfig extends Component {
 
 class TestContainer extends Component {
   render() {
+    let subjectsRoutes = [];
+    for (let sub_id in SUBJECT_ID_TO_NAME) {
+      subjectsRoutes.push(
+        <Route
+          path={`${this.props.match.path}/${sub_id}/:gen_id?`}
+          render={props => <TestConfig sub_id={sub_id} {...props}/>}
+          key={sub_id}
+        />
+      );
+    }
     return (
       <div className="content">
         <Switch>
           <Route exact path={this.props.match.path}>
-            <TestConfig {...this.props} />
+            <SubjectsPage />
           </Route>
-          <Route
-            path={`${this.props.match.path}/:gen_id`}
-            component={TestConfig}
-            {...this.props}
-          />
+          {subjectsRoutes}
+          <Route component={NotFound} />
         </Switch>
       </div>
     );

@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { SUBJECT_ID_TO_NAME } from '../constants/probGenerators';
 
 export class Navigation extends Component {
   constructor(props) {
@@ -30,6 +31,17 @@ export class Navigation extends Component {
   }
 
   render() {
+    let subjects = [];
+    for (let [sub_id, sub_name] of Object.entries(SUBJECT_ID_TO_NAME)) {
+      let url = `/test/${sub_id}`;
+      subjects.push(
+        <DropdownItem
+          tag={Link}
+          to={url}>
+          {sub_name}
+        </DropdownItem>
+      );
+    }
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -38,19 +50,16 @@ export class Navigation extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret> Boards </DropdownToggle>
+                <DropdownToggle nav caret> Subjects </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>CBSE</DropdownItem>
-                  <DropdownItem>CISCE</DropdownItem>
-                  <DropdownItem>ICSE</DropdownItem>
-                  <DropdownItem>Others</DropdownItem>
+                  {subjects}
                 </DropdownMenu>
               </UncontrolledDropdown>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret> Testing </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem tag={Link} to="/test/square">Square</DropdownItem>
-                  <DropdownItem tag={Link} to="/test/squareroot">Square Root</DropdownItem>
+                  <DropdownItem tag={Link} to="/test/maths/square">Square</DropdownItem>
+                  <DropdownItem tag={Link} to="/test/maths/squareroot">Square Root</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
