@@ -3,6 +3,8 @@ import Square from '../probGenerators/maths/square';
 
 export const SUBJECT_ID_TO_NAME = {
   'maths': 'Maths',
+  'physics': 'Physics',
+  'chemistry': 'Chemistry',
 }
 
 export const GEN_IDS = {

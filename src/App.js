@@ -226,13 +226,15 @@ class TestContainer extends Component {
   render() {
     let subjectsRoutes = [];
     for (let sub_id in SUBJECT_ID_TO_NAME) {
-      subjectsRoutes.push(
-        <Route
-          path={`${this.props.match.path}/${sub_id}/:gen_id?`}
-          render={props => <TestConfig sub_id={sub_id} {...props}/>}
-          key={sub_id}
-        />
-      );
+      if (GEN_IDS[sub_id]) { //Add route only if problems for subject exist
+        subjectsRoutes.push(
+          <Route
+            path={`${this.props.match.path}/${sub_id}/:gen_id?`}
+            render={props => <TestConfig sub_id={sub_id} {...props}/>}
+            key={sub_id}
+          />
+        );
+      }
     }
     return (
       <div className="content">

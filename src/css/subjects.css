@@ -1,0 +1,41 @@
+.subject-card {
+  /* height: calc((100% - 44px) / 3); */
+  margin: 10px 0;
+  border: 1px solid;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.subjects-list {
+  height: 100%;
+}
+
+.subject-icon {
+  margin: 15px;
+  max-height: 180px;
+}
+
+.subject-name {
+  font-size: 4vw;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.subject-card.maths {
+  color: #140AC7;
+  background-color: lightgreen;
+}
+
+.subject-card.physics {
+  color: #7316C5;
+  background-color: #FAFF8F;
+}
+
+.subject-card.chemistry {
+  color: #9AEFE8;
+  background-color: #A117A1;
+}
