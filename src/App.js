@@ -202,21 +202,24 @@ class TestConfig extends Component {
       );
     }
     return (
-      <div className="test-options">
-        Number of questions:
-        <input type="number" min="1" max="10"
-          value={this.state.totalQuestions}
-          onChange={this.handleTotQuestionsChange}
-        /><br />
-        Select type:
-        <select value={this.state.gen_id} onChange={this.handleTypeChange}>
-          {genOptions}
-        </select><br />
-        <Link
-          to={`/test/${this.state.sub_id}/${this.state.gen_id}`}
-        >
-          <Button color="primary" onClick={this.startTest}>Start</Button>
-        </Link>
+      <div>
+        <h1>{SUBJECT_ID_TO_NAME[this.state.sub_id]} Practice</h1>
+        <div className="test-options">
+          Number of questions:
+          <input type="number" min="1" max="10"
+            value={this.state.totalQuestions}
+            onChange={this.handleTotQuestionsChange}
+          /><br />
+          Select type:
+          <select value={this.state.gen_id} onChange={this.handleTypeChange}>
+            {genOptions}
+          </select><br />
+          <Link
+            to={`/test/${this.state.sub_id}/${this.state.gen_id}`}
+          >
+            <Button color="primary" onClick={this.startTest}>Start</Button>
+          </Link>
+        </div>
       </div>
     );
   }
