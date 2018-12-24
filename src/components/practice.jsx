@@ -4,11 +4,12 @@ import {
   Link,
   Switch } from 'react-router-dom';
 import {
- Button,
- Form,
- FormGroup,
- Label,
- Input } from 'reactstrap';
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Alert } from 'reactstrap';
 import {
   GEN_IDS,
   GEN_ID_TO_GEN,
@@ -17,6 +18,7 @@ import {
 import { createBrowserHistory } from 'history';
 import { SubjectsPage } from './subjects';
 import { NotFound } from './notfound';
+import { TestProgressBar } from './testProgressBar';
   
 class Problem extends Component {
   constructor(props) {
@@ -134,6 +136,7 @@ class Test extends Component {
         /><br />
         <div>Question {this.state.qNo}/{this.totalQuestions}</div>
         <div>{this.state.error}</div>
+        <TestProgressBar currentQNo={this.state.qNo} totalQNo={this.totalQuestions} />
       </div>
     );
   }
@@ -143,6 +146,7 @@ class TestConfig extends Component {
   constructor(props) {
     super(props);
 
+    this.qLimit = 10;
     const sub_id = props.sub_id;
     const testStarted = props.testStarted || false;
     const totalQuestions = props.totalQuestions || 3;
@@ -156,6 +160,7 @@ class TestConfig extends Component {
       testStarted: testStarted,
       totalQuestions: totalQuestions,
       gen_id: gen_id,
+      errors: [],
     }
 
     this.handleTotQuestionsChange = this.handleTotQuestionsChange.bind(this);
@@ -186,10 +191,40 @@ class TestConfig extends Component {
     })
   }
 
+  isValidForm() {
+    let errors = [];
+    let totQ = this.state.totalQuestions;
+    // Check for missing questions number
+    if (!totQ) {
+      errors.push(
+        <Alert key="noTotQ" color="danger">
+          Number of questions cannot be empty.
+        </Alert>
+      );
+    }
+    // Check number of questions is in range
+    else if ((totQ > this.qLimit) || (totQ < 1)) {
+      errors.push(
+        <Alert key="wrongTotQRange" color="danger">
+          The number of questions should be between 1 and {this.qLimit}.
+        </Alert>
+      );
+    }
+
+    // Also clears errors if there are none
+    this.setState({errors: errors});
+    if (errors.length > 0) {
+      return false;
+    }
+    return true;
+  }
+
   startTest(event) {
-    this.setState({
-      testStarted: true,
-    });
+    if (this.isValidForm()) {
+      this.setState({
+        testStarted: true,
+      });
+    }
   }
 
   render() {
@@ -214,7 +249,9 @@ class TestConfig extends Component {
         <h1>{SUBJECT_ID_TO_NAME[this.state.sub_id]} Practice</h1>
         <Form>
           <FormGroup>
-            <Label for="totalQuestionsSelect">Select number of questions</Label>
+            <Label for="totalQuestionsSelect">
+              Enter number of questions (Max. {this.qLimit})
+            </Label>
             <Input
               type="number"
               name="totalQuestions"
@@ -238,6 +275,7 @@ class TestConfig extends Component {
               {genOptions}
             </Input>
           </FormGroup>
+          {this.state.errors}
           <Link
             to={`/test/${this.state.sub_id}/${this.state.gen_id}`}
           >
