@@ -80,7 +80,7 @@ class Test extends Component {
     super(props);
 
     this.totalQuestions = props.totalQuestions;
-    this.probGen = props.probGen;
+    this.probGen = GEN_ID_TO_GEN[this.props.sub_id][this.props.gen_id];
     this.state = this.getStartingState();
   }
 
@@ -100,7 +100,7 @@ class Test extends Component {
       })
       return;
     }
-    this.setState({error: 'Wrong answer. Try again'});
+    this.setState({error: <Alert color="danger">Wrong answer. Try again</Alert>});
   }
 
   resetTest() {
@@ -128,14 +128,15 @@ class Test extends Component {
     
     return (
       <div>
+        <h1>{GEN_ID_TO_GEN_NAME[this.props.sub_id][this.props.gen_id]} practice</h1>
         <Problem 
           qNo={this.state.qNo}
           questionText={this.state.questionText}
           onClick={(ans) => this.handleAnswer(ans)}
           type={this.state.type}
         /><br />
-        <div>Question {this.state.qNo}/{this.totalQuestions}</div>
         <div>{this.state.error}</div>
+        <div>Question {this.state.qNo}/{this.totalQuestions}</div>
         <TestProgressBar currentQNo={this.state.qNo} totalQNo={this.totalQuestions} />
       </div>
     );
@@ -231,7 +232,8 @@ class TestConfig extends Component {
     if (this.state.testStarted) {
       return (
         <Test totalQuestions={this.state.totalQuestions}
-          probGen = {GEN_ID_TO_GEN[this.state.sub_id][this.state.gen_id]}
+          sub_id={this.state.sub_id}
+          gen_id={this.state.gen_id}
         />
       );
     }
