@@ -4,11 +4,16 @@ import {
   Link,
   Switch } from 'react-router-dom';
 import {
+ Button,
+ Form,
+ FormGroup,
+ Label,
+ Input } from 'reactstrap';
+import {
   GEN_IDS,
   GEN_ID_TO_GEN,
   GEN_ID_TO_GEN_NAME, 
   SUBJECT_ID_TO_NAME } from '../constants/probGenerators';
-import { Button } from 'reactstrap';
 import { createBrowserHistory } from 'history';
 import { SubjectsPage } from './subjects';
 import { NotFound } from './notfound';
@@ -35,15 +40,23 @@ class Problem extends Component {
   render() {
     return (
       <div className="problem-container">
-        <div className="problem-text">Q.{this.props.qNo} {this.props.questionText}</div>
-        <input className="answer-box"
-          type={this.props.type}
-          value={this.state.answerText}
-          onChange={this.handleAnswerChange}
-        /><br />
-        <button onClick={(ans) => this.props.onClick(this.state.answerText)}>
-          Check
-        </button>
+        <Form>
+          <FormGroup>
+            <Label>Q{this.props.qNo}. {this.props.questionText}</Label>
+            <Input
+              id="answerInput"
+              type={this.props.type}
+              value={this.state.answerText}
+              onChange={this.handleAnswerChange}
+            />
+          </FormGroup>
+          <Button
+            color="primary"
+            onClick={(ans) => this.props.onClick(this.state.answerText)}
+          >
+            Check
+          </Button>
+        </Form>
       </div>
     );
   }
@@ -112,7 +125,7 @@ class Test extends Component {
     }
     
     return (
-      <div className="test-div">
+      <div>
         <Problem 
           qNo={this.state.qNo}
           questionText={this.state.questionText}
@@ -199,22 +212,38 @@ class TestConfig extends Component {
     return (
       <div>
         <h1>{SUBJECT_ID_TO_NAME[this.state.sub_id]} Practice</h1>
-        <div className="test-options">
-          Number of questions:
-          <input type="number" min="1" max="10"
-            value={this.state.totalQuestions}
-            onChange={this.handleTotQuestionsChange}
-          /><br />
-          Select type:
-          <select value={this.state.gen_id} onChange={this.handleTypeChange}>
-            {genOptions}
-          </select><br />
+        <Form>
+          <FormGroup>
+            <Label for="totalQuestionsSelect">Select number of questions</Label>
+            <Input
+              type="number"
+              name="totalQuestions"
+              min="1"
+              max="10"
+              value={this.state.totalQuestions}
+              onChange={this.handleTotQuestionsChange}
+              id="totalQuestionsSelect"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="questionsTypeSelect">Select Problems type</Label>
+            <Input
+              type="select"
+              name="questionsTypeSelect"
+              id="questionsTypeSelect"
+              value={this.state.gen_id}
+              onChange={this.handleTypeChange}
+            >
+              {genOptions}
+            </Input>
+          </FormGroup>
           <Link
             to={`/test/${this.state.sub_id}/${this.state.gen_id}`}
           >
             <Button color="primary" onClick={this.startTest}>Start</Button>
           </Link>
-        </div>
+        </Form>
       </div>
     );
   }
