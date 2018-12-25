@@ -25,6 +25,7 @@ class Problem extends Component {
     this.state = {answerText: '', qNo: props.qNo};
 
     this.handleAnswerChange = this.handleAnswerChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,10 +39,15 @@ class Problem extends Component {
     this.setState({answerText: event.target.value});
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.onClick(this.state.answerText);
+  }
+
   render() {
     return (
       <div className="problem-container">
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label>Q{this.props.qNo}. {this.props.questionText}</Label>
             <Input
@@ -51,10 +57,7 @@ class Problem extends Component {
               onChange={this.handleAnswerChange}
             />
           </FormGroup>
-          <Button
-            color="primary"
-            onClick={(ans) => this.props.onClick(this.state.answerText)}
-          >
+          <Button color="primary" type="submit">
             Check
           </Button>
         </Form>
@@ -84,6 +87,11 @@ class Test extends Component {
   }
 
   handleAnswer(userAnswer) {
+    // Don't allow empty answer
+    if (!userAnswer) {
+      this.setState({error: <Alert color="danger">Enter an answer first.</Alert>});
+      return;
+    }
     if (this.probGen.checkAnswer(userAnswer, this.state.answer)) {
       if (this.state.qNo >= this.totalQuestions) {
         this.setState({ended: true, error: ''});
