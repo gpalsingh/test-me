@@ -11,6 +11,7 @@ import {
   Input,
   Alert,
   Jumbotron } from 'reactstrap';
+import { createBrowserHistory } from 'history';
 import {
   GEN_IDS,
   GEN_ID_TO_GEN,
@@ -19,6 +20,7 @@ import {
 import { SubjectsPage } from './subjects';
 import { NotFound } from './notfound';
 import { TestProgressBar } from './testProgressBar';
+import '../css/practice.css';
   
 class Problem extends Component {
   constructor(props) {
@@ -72,12 +74,14 @@ class TestResults extends Component {
     return (
       <Jumbotron className="text-center">
         <div>Test finished!</div>
-        <Button
-          color="primary"
-          onClick={() => this.props.onClick()}
-        >Again</Button>
-        <Button color="primary" onClick={this.props.history.goBack}>Home</Button>
-        <Button color="primary" tag={Link} to="/">Back</Button>
+        <div className="test-finished-buttons d-flex flex-column flex-sm-row">
+          <Button
+            color="primary"
+            onClick={() => this.props.onClick()}
+          >Again</Button>
+          <Button color="primary" onClick={history.goBack}>Back</Button>
+          <Button color="primary" tag={Link} to="/">Home</Button>
+        </div>
       </Jumbotron>
     );
   }
@@ -328,3 +332,5 @@ export class TestContainer extends Component {
     );
   }
 }
+
+const history = createBrowserHistory();

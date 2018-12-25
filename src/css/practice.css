@@ -1,0 +1,7 @@
+.test-finished-buttons {
+  justify-content: center;
+}
+
+.test-finished-buttons .btn {
+  margin: 5px;
+}
