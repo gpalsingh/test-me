@@ -136,7 +136,6 @@ class Test extends Component {
           type={this.state.type}
         /><br />
         <div>{this.state.error}</div>
-        <div>Question {this.state.qNo}/{this.totalQuestions}</div>
         <TestProgressBar currentQNo={this.state.qNo} totalQNo={this.totalQuestions} />
       </div>
     );
