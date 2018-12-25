@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import {
   Route,
-  Link,
-  Switch } from 'react-router-dom';
+  Switch,
+  Link } from 'react-router-dom';
 import {
   Button,
   Form,
   FormGroup,
   Label,
   Input,
-  Alert } from 'reactstrap';
+  Alert,
+  Jumbotron } from 'reactstrap';
 import {
   GEN_IDS,
   GEN_ID_TO_GEN,
@@ -69,10 +70,15 @@ class Problem extends Component {
 class TestResults extends Component {
   render() {
     return (
-      <div className="test-result">
-        Test over!<br />
-        <button onClick={() => this.props.onClick()}>Again</button>
-      </div>
+      <Jumbotron className="text-center">
+        <div>Test finished!</div>
+        <Button
+          color="primary"
+          onClick={() => this.props.onClick()}
+        >Again</Button>
+        <Button color="primary" onClick={this.props.history.goBack}>Home</Button>
+        <Button color="primary" tag={Link} to="/">Back</Button>
+      </Jumbotron>
     );
   }
 }
