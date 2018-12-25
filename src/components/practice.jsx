@@ -15,7 +15,6 @@ import {
   GEN_ID_TO_GEN,
   GEN_ID_TO_GEN_NAME, 
   SUBJECT_ID_TO_NAME } from '../constants/probGenerators';
-import { createBrowserHistory } from 'history';
 import { SubjectsPage } from './subjects';
 import { NotFound } from './notfound';
 import { TestProgressBar } from './testProgressBar';
@@ -169,11 +168,12 @@ class TestConfig extends Component {
   }
 
   componentDidMount() {
-    //Listen to history changes to render accordingly
-    this.unlisten = history.listen((location, action) => {
+    //End test when moving in history
+    this.unlisten = this.props.history.listen((location, action) => {
       this.setState({testStarted: false});
     });
   }
+  
 
   componentWillUnmount() {
     this.unlisten();
@@ -220,7 +220,10 @@ class TestConfig extends Component {
   }
 
   startTest(event) {
+    event.preventDefault();
     if (this.isValidForm()) {
+      const problemUrl = `/test/${this.state.sub_id}/${this.state.gen_id}`;
+      this.props.history.push(problemUrl);
       this.setState({
         testStarted: true,
       });
@@ -248,7 +251,7 @@ class TestConfig extends Component {
     return (
       <div>
         <h1>{SUBJECT_ID_TO_NAME[this.state.sub_id]} Practice</h1>
-        <Form>
+        <Form onSubmit={this.startTest}>
           <FormGroup>
             <Label for="totalQuestionsSelect">
               Enter number of questions (Max. {this.qLimit})
@@ -277,11 +280,7 @@ class TestConfig extends Component {
             </Input>
           </FormGroup>
           {this.state.errors}
-          <Link
-            to={`/test/${this.state.sub_id}/${this.state.gen_id}`}
-          >
-            <Button color="primary" onClick={this.startTest}>Start</Button>
-          </Link>
+          <Button color="primary" type="submit">Start</Button>
         </Form>
       </div>
     );
@@ -315,5 +314,3 @@ export class TestContainer extends Component {
     );
   }
 }
-
-const history = createBrowserHistory();
