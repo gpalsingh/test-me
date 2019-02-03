@@ -4,8 +4,12 @@
   height: 99%;
 }
 
-.container, .landing-page, .content {
+.container, .content {
   height: calc(100% - 40px);;
+}
+
+.landing-page {
+  height: 100%;
 }
 
 code {
@@ -38,7 +42,7 @@ code {
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: -1;  
+  z-index: -1;
   content: "";
 }
 
