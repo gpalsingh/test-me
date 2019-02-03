@@ -57,13 +57,6 @@ export class Navigation extends Component {
                   {subjects}
                 </DropdownMenu>
               </UncontrolledDropdown>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret> Testing </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem tag={Link} to="/test/maths/square">Square</DropdownItem>
-                  <DropdownItem tag={Link} to="/test/maths/squareroot">Square Root</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
               <NavItem>
                 <NavLink tag={Link} to="/about">About</NavLink>
               </NavItem>
